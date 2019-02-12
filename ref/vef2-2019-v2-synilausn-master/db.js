@@ -66,7 +66,7 @@ UPDATE applications
 SET processed = true, updated = current_timestamp
 WHERE id = $1`;
 
-  return query(q, id);
+  return query(q, [id]);
 }
 
 /**

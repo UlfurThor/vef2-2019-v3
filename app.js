@@ -8,6 +8,8 @@ const register = require('./register');
 const admin = require('./admin');
 const applications = require('./applications');
 
+const sessionSecret = process.env.SESSION_SECRET;
+
 /* todo sækja stillingar úr env */
 
 if (!sessionSecret) {
@@ -38,7 +40,7 @@ function isInvalid(field, errors) {
 }
 
 app.locals.isInvalid = isInvalid;
-
+console.log(app);
 /* todo setja upp login og logout virkni */
 
 app.use('/', apply);
