@@ -10,6 +10,10 @@ const xss = require('xss');
 const {
   createApplication,
 } = require('./db');
+const {
+  catchErrors,
+} = require('./utils');
+
 
 const users = require('./users');
 
@@ -19,9 +23,6 @@ router.use(express.urlencoded({
   extended: true,
 }));
 
-function catchErrors(fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-}
 
 function sanitizeUser(data) {
   const safeData = data;
@@ -109,7 +110,7 @@ async function submit(req, res) {
     return;
   }
   try {
-    const hashPass = await users.hash(data.password01); // TODO FIX PASSWORD HASHING
+    data.hashPass = await users.hash(data.password01);
     await users.db.createUser(data);
   } catch (err) {
     throw new Error(err);

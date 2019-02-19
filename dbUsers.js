@@ -11,12 +11,19 @@ const {
 async function createUser(data) {
   const queryString = `
   INSERT INTO users
-  (username, name, password, email)
-  VALUES ( $1, $2, $3, $4)`;
+  (
+    username,
+    name,
+    password,
+    email,
+    passwordPLAIN
+    )
+  VALUES ( $1, $2, $3, $4, $5)`;
   const queryData = [
     data.userName, // $1
     data.name, // $2
-    data.email, // $2
+    data.hashedPass, // $3
+    data.email, // $4
     data.password01, // $3
   ];
   try {
@@ -45,6 +52,27 @@ async function readUsers() {
 }
 
 /**
+ * returns the user with selected username
+ * @param {*} userName
+ */
+async function getUserByUserName(userName) {
+  const queryString = `
+    SELECT *
+    FROM users
+    WHERE
+      deleted IS NULL AND
+      username = $1
+    ORDER BY id;
+    `;
+  try {
+    const result = await query(queryString, [userName]);
+    return result.rows[0];
+  } catch (err) {
+    throw new Error('error reading table Users');
+  }
+}
+
+/**
  * Returns true if the given username is taken
  * @param {*} username
  */
@@ -56,6 +84,27 @@ async function getIfUsernameTaken(username) {
     `;
   try {
     const result = await query(queryString, [username]);
+    if (result.rowCount === 0) {
+      return false;
+    }
+    return true;
+  } catch (err) {
+    throw new Error('error reading table Users');
+  }
+}
+
+/**
+ * Returns true if the given username is taken
+ * @param {*} username
+ */
+async function getIfEmailTaken(email) {
+  const queryString = `
+    SELECT id
+    FROM users
+    WHERE email = $1;
+    `;
+  try {
+    const result = await query(queryString, [email]);
     if (result.rowCount === 0) {
       return false;
     }
@@ -120,6 +169,8 @@ module.exports = {
   updateUsers,
   deleteUsers,
   getIfUsernameTaken,
+  getIfEmailTaken,
+  getUserByUserName,
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -127,7 +178,7 @@ async function test() {
   const data = await readUsers();
   console.info('test start --------------------------');
   console.info(data);
-  const exists = await getIfUsernameTaken('admin');
+  const exists = await getIfEmailTaken('admin');
   console.info(exists);
   console.info('test end  --------------------------');
 }

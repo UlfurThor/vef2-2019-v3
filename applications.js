@@ -5,12 +5,11 @@ const {
   updateApplications,
   deleteApplications,
 } = require('./dbApplications');
+const {
+  catchErrors,
+} = require('./utils');
 
 const router = express.Router();
-
-function catchErrors(fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-}
 
 router.use(express.urlencoded({
   extended: true,

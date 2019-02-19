@@ -12,9 +12,17 @@ INSERT INTO applications (name, email, phone, comment, jobTitle, processed, dele
 VALUES ('John Johnson', 'john@example.org', '1000000', 'Etiam accumsan neque nec mauris fringilla, id dignissim tortor maximus. Proin sit amet sodales felis. Vivamus ut est magna. Quisque porta quam ac orci dignissim convallis. Nunc efficitur sagittis felis at gravida. Praesent quis quam molestie, rutrum mi sed, malesuada nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse felis tortor, imperdiet in metus eget, bibendum aliquet nisl.', 'admin', false, current_timestamp);
 
 
-INSERT INTO users (username, password, name, email, admin)
-VALUES ('admin', 'asdfasdf','Admin', 'admin@example.org', true);
+INSERT INTO users (username, password, name, email, admin
+,passwordplain --TODO REMOVE
+)
+VALUES ('admin', '$2b$11$mR5xCawElD6/494S3ozvB.dHAPrPPD6KQOtocRg8hLP9Lvi3vX17W','Admin', 'admin@example.org', true
+,'asdfasdf' --TODO REMOVE
+);
 
 
-INSERT INTO users (username, password, name, email)
-VALUES ('nn', '12341234', 'Nafnlaus', 'nn@example.org');
+INSERT INTO users (username, password, name, email
+,passwordplain --TODO REMOVE
+)
+VALUES ('nn', '$2b$11$7V7mJLNzt.24VuuUFXqIaO7xpjeI8Gjw7sJmz5UYadvMWHyImwGOO', 'Nafnlaus', 'nn@example.org'
+,'asdfasdf' --TODO REMOVE
+);

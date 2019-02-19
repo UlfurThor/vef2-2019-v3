@@ -10,6 +10,9 @@ const xss = require('xss');
 const {
   createApplication,
 } = require('./db');
+const {
+  catchErrors,
+} = require('./utils');
 
 const users = require('./users');
 
@@ -19,9 +22,6 @@ router.use(express.urlencoded({
   extended: true,
 }));
 
-function catchErrors(fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-}
 
 function sanitizeUser(data) {
   const safeData = data;
@@ -48,8 +48,9 @@ async function validData(data, req) {
     passNoMatch = false;
   }
   const userTaken = await users.db.getIfUsernameTaken(data.userName);
+  const emailTaken = await users.db.getIfEmailTaken(data.email);
 
-  if (!errors.isEmpty() || passNoMatch || userTaken) {
+  if (!errors.isEmpty() || passNoMatch || userTaken || emailTaken) {
     const err = {};
     err.msgList = errors.array().map(i => i.msg);
     for (let j = 0; j < errors.array().length; j += 1) {
@@ -64,6 +65,11 @@ async function validData(data, req) {
     if (userTaken) {
       err.msgList.push('Notendanafn frátekið');
       err.userName = true;
+    }
+
+    if (emailTaken) {
+      err.msgList.push('Email frátekið');
+      err.email = true;
     }
 
     return err;
@@ -109,7 +115,7 @@ async function submit(req, res) {
     return;
   }
   try {
-    const haedPass = await users.hash(data.password01); // TODO FIX PASSWORD HASHING
+    data.hashedPass = await users.hash(data.password01);
     await users.db.createUser(data);
   } catch (err) {
     throw new Error(err);

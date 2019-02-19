@@ -53,7 +53,7 @@ label {
 
 @media (min-width: 800px) {
   .field_container {
-    max-width: 80%;
+
   }
 
   .field_container .field_block {
@@ -120,4 +120,8 @@ p.comment:hover {
 
 .content{
   margin-top: 32px;
+}
+
+header .curent_page{
+  font-weight: bold;
 }

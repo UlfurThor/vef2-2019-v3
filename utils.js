@@ -9,7 +9,6 @@ function catchErrors(fn) {
 }
 
 /* todo bæta við fleiri hjálparföllum */
-
 module.exports = {
   catchErrors,
 };

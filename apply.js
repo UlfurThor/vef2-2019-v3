@@ -10,6 +10,9 @@ const xss = require('xss');
 const {
   createApplication,
 } = require('./dbApplications');
+const {
+  catchErrors,
+} = require('./utils');
 
 const router = express.Router();
 
@@ -17,10 +20,6 @@ const router = express.Router();
 router.use(express.urlencoded({
   extended: true,
 }));
-
-function catchErrors(fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-}
 
 // ------------------------------------------------------------------------------------------
 /**
