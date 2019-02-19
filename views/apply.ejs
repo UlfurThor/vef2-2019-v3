@@ -1,0 +1,56 @@
+<%- include('header') -%>
+<% if (typeof data === 'undefined') { data = {} }%>
+<% if (typeof err === 'undefined') { err = {} }%>
+<div class = "headding">
+    <a href="/">Heim</a>
+    <a href="/applications">Atvinnuumsókn</a>
+  <a href="/login">Innskráning</a>
+  <a href="/register">Nýskráning</a>
+  </div>
+<h1> Atvinnuumsókn </h1>
+<form id="application" action="/" method="post">
+  <div class="field_container">
+    <div class="field_block">
+      <label for="name">Nafn:</label>
+      <input type="text" name="name" value="<%= data.name ? data.name : '' %>" class="<%= err.name ? 'error_input' : '' %>"><br>
+    </div>
+
+    <div class="field_block">
+
+      <label for="email">Netfang:</label>
+      <input type="text" name="email" value="<%= data.email ? data.email : '' %>" class="<%= err.email ? 'error_input' : '' %>"><br>
+    </div>
+
+    <div class="field_block">
+      <label for="phone">Sími:</label>
+      <input type="text" name="phone" value="<%= data.phone ? data.phone : '' %>" class="<%= err.phone ? 'error_input' : '' %>"><br>
+    </div>
+
+    <div class="field_block">
+      <label for="comment">Kynning á þér:</label>
+      <textarea rows="5" name="comment" form="application" placeholder="Verður að vera minst 100 caracter á lengd..."
+        class="<%= err.comment ? 'error_input' : '' %>"><%- data.comment %></textarea><br>
+    </div>
+
+  </div>
+  <div class="radio_container <%= err.jobTitle ? 'error_input_radio' : '' %>">
+    <label for="jobTitle" class="jobTitle">Starf sem sótt er um:</label><br>
+    <div class="radio_block"><input type="radio" name="jobTitle" value="programer"> <span class=""> Forritari </span></div>
+    <div class="radio_block"><input type="radio" name="jobTitle" value="designer"> <span class="">Hönnuður</span></div>
+    <div class="radio_block"><input type="radio" name="jobTitle" value="admin"> <span class="">Verkefnastjóri</span></div>
+  </div>
+
+  <% if (typeof err.msgList !== 'undefined') { %>
+    <h2>Vandræði við að senda umsókn:</h2>
+    <ul class="error_list">
+      <li>
+        <%- `${err.msgList.join('</li><li>')}`%>
+      </li>
+    </ul>
+
+    <% }%>
+
+  <button>Senda umsókn </button>
+</form>
+
+<%- include('footer') -%>

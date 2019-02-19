@@ -8,11 +8,13 @@ INSERT INTO applications (name, email, phone, comment, jobTitle, processed)
 VALUES ('Guðmunda Guðmundsdóttir', 'gudmunda@example.org', '1111111', 'Aenean a nibh a enim cursus bibendum. Donec dictum velit in odio feugiat imperdiet. Sed blandit, justo vitae lacinia efficitur, tortor ante ultrices orci, nec placerat dui purus ac augue. Nullam aliquet purus sit amet erat laoreet, nec consequat augue suscipit. Curabitur rutrum pretium erat sed pellentesque. Proin ligula massa, varius id tristique in, varius id elit. Sed congue volutpat fringilla.', 'designer', false);
 INSERT INTO applications (name, email, phone, comment, jobTitle, processed)
 VALUES ('John Johnson', 'john@example.org', '1000000', 'Etiam accumsan neque nec mauris fringilla, id dignissim tortor maximus. Proin sit amet sodales felis. Vivamus ut est magna. Quisque porta quam ac orci dignissim convallis. Nunc efficitur sagittis felis at gravida. Praesent quis quam molestie, rutrum mi sed, malesuada nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse felis tortor, imperdiet in metus eget, bibendum aliquet nisl.', 'admin', false);
+INSERT INTO applications (name, email, phone, comment, jobTitle, processed, deleted)
+VALUES ('John Johnson', 'john@example.org', '1000000', 'Etiam accumsan neque nec mauris fringilla, id dignissim tortor maximus. Proin sit amet sodales felis. Vivamus ut est magna. Quisque porta quam ac orci dignissim convallis. Nunc efficitur sagittis felis at gravida. Praesent quis quam molestie, rutrum mi sed, malesuada nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse felis tortor, imperdiet in metus eget, bibendum aliquet nisl.', 'admin', false, current_timestamp);
 
 
 INSERT INTO users (username, password, name, email, admin)
-VALUES ('admin', 'asdfasdf','Admin', 'admin@example.org	', true);
+VALUES ('admin', 'asdfasdf','Admin', 'admin@example.org', true);
 
 
 INSERT INTO users (username, password, name, email)
-VALUES ('nn', '12341234', 'Nafnlaus', 'nn@example.org	');
+VALUES ('nn', '12341234', 'Nafnlaus', 'nn@example.org');

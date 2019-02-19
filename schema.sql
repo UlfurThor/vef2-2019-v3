@@ -7,7 +7,8 @@ CREATE TABLE applications (
   jobTitle varchar(32) not null, -- should have a external refrence table for this
   processed boolean DEFAULT false,
   created timestamp with time zone not null default current_timestamp,
-  updated timestamp with time zone not null default current_timestamp
+  updated timestamp with time zone not null default current_timestamp,
+  deleted timestamp with time zone -- more realistic implementation of a "delete" function, MUST NEVER BE EXPOSED UNDER NORMAL CIRCUMSTANCES
 );
 
 
@@ -19,5 +20,6 @@ CREATE TABLE users (
   email varchar(256) not null,
   admin boolean default false,
   created timestamp with time zone not null default current_timestamp,
-  updated timestamp with time zone not null default current_timestamp
+  updated timestamp with time zone not null default current_timestamp,
+  deleted timestamp with time zone -- more realistic implementation of a "delete" function, MUST NEVER BE EXPOSED UNDER NORMAL CIRCUMSTANCES
 );

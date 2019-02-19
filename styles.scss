@@ -1,0 +1,19 @@
+// Sass used just because i think its nicer to work with than 'raw' css
+* {
+  padding: 0;
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}

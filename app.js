@@ -2,8 +2,12 @@ require('dotenv').config();
 
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const { Strategy } = require('passport-local');
 
 const apply = require('./apply');
+const login = require('./login');
 const register = require('./register');
 const admin = require('./admin');
 const applications = require('./applications');
@@ -21,7 +25,9 @@ const app = express();
 
 /* todo stilla session og passport */
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true,
+}));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -40,21 +46,30 @@ function isInvalid(field, errors) {
 }
 
 app.locals.isInvalid = isInvalid;
-console.log(app);
+// console.log(app);
 /* todo setja upp login og logout virkni */
 
 app.use('/', apply);
+app.use('/login', login);
 app.use('/register', register);
 app.use('/applications', applications);
 app.use('/admin', admin);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
-  res.status(404).render('error', { page: 'error', title: '404', error: '404 fannst ekki' });
+  res.status(404).render('error', {
+    page: 'error',
+    title: '404',
+    error: '404 fannst ekki',
+  });
 }
 
 function errorHandler(error, req, res, next) { // eslint-disable-line
   console.error(error);
-  res.status(500).render('error', { page: 'error', title: 'Villa', error });
+  res.status(500).render('error', {
+    page: 'error',
+    title: 'Villa',
+    error,
+  });
 }
 
 app.use(notFoundHandler);

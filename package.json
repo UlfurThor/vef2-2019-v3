@@ -1,22 +1,29 @@
 {
-  "name": "v3-synilausn",
+  "name": "v3",
   "version": "1.0.0",
-  "description": "Verkefni 3 sýnilausn",
+  "description": "Verkefni 3",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
     "setup": "node setup.js",
     "eslint": "eslint *.js",
+    "sass": "node-sass --source-map-embed styles.scss public/styles.css",
+    "sass-watch": "node-sass --source-map-embed --watch *.scss --recursive styles.css",
+    "stlint": "stylelint *.scss scss/*.scss --syntax scss",
     "test": "npm run eslint"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "express-validator": "^5.3.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "pg": "^7.8.0",
     "xss": "^1.0.3"
   },
@@ -24,6 +31,8 @@
     "eslint": "5.12.1",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-plugin-import": "2.15.0",
-    "nodemon": "1.18.9"
+    "node-sass": "^4.11.0",
+    "nodemon": "1.18.9",
+    "stylelint": "^9.10.1"
   }
 }

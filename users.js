@@ -1,2 +1,11 @@
+const bcrypt = require('bcrypt');
+const dbUsers = require('./dbUsers');
 
-/* todo útfæra virkni fyrir notendur */
+async function hash(password) {
+  return bcrypt.hash(password, 10);
+}
+
+module.exports = {
+  db: dbUsers,
+  hash,
+};

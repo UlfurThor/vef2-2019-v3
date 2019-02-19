@@ -74,42 +74,42 @@ async function validData(data, req) {
 
 // ------------------------------------------------------------------------------------------
 /**
- * Genarates application page
+ * Genarates login page
  * @param {*} req
  * @param {*} res
  */
 async function page(req, res) {
-  console.info('--- page> register - get');
+  console.info('--- page> login - get');
 
-  res.render('register', {
-    title: 'Nýskráning',
+  res.render('login', {
+    title: 'Innskráning',
   });
 }
 
 // ------------------------------------------------------------------------------------------
 /**
- * Gets application, evaluates it, and returns either error page,
- *     or uploads it and returns thank you page
+ * Gets login, evaluates it, and returns either error page,
+ *     or logs user in before redirecting
  * @param {*} req
  * @param {*} res
  */
 async function submit(req, res) {
-  console.info('--- page> register - get');
+  console.info('--- page> login - get');
   const data = req.body;
 
   const errors = await validData(data, req);
   if (errors !== undefined) {
     const safeData = sanitizeUser(data);
 
-    res.render('register', {
-      title: 'Nýskráning - Villur',
+    res.render('login', {
+      title: 'Innskráning',
       err: errors,
       data: safeData,
     });
     return;
   }
   try {
-    const haedPass = await users.hash(data.password01); // TODO FIX PASSWORD HASHING
+    const hashPass = await users.hash(data.password01); // TODO FIX PASSWORD HASHING
     await users.db.createUser(data);
   } catch (err) {
     throw new Error(err);
@@ -120,26 +120,15 @@ async function submit(req, res) {
 }
 
 router.post('/',
-  check('name').isLength({
-    min: 1,
-  }).withMessage('Nafn má ekki vera tómt'),
-  check('email').isLength({
-    min: 1,
-  }).withMessage('Email má ekki vera tómt'),
-  check('email').isEmail().withMessage('Email verður að fera í réttu formi'),
   check('userName').isLength({
     min: 1,
   }).withMessage('Notendanafn má ekki vera tómt'),
-  check('password01').isLength({
+  check('password').isLength({
     min: 8,
   }).withMessage('Lykilorð verður að vera minst 8 stafir'),
 
-
-  sanitize('name').trim().escape(),
-  sanitize('email').normalizeEmail(),
   sanitize('userName').trim().escape(),
-  sanitize('password01').trim().escape(),
-  sanitize('password02').trim().escape(),
+  sanitize('password').trim().escape(),
   catchErrors(submit));
 
 router.get('/', catchErrors(page));
