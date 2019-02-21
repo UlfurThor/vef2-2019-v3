@@ -10,7 +10,8 @@
     "sass": "node-sass --source-map-embed styles.scss public/styles.css",
     "sass-watch": "node-sass --source-map-embed --watch *.scss --recursive styles.css",
     "stlint": "stylelint *.scss scss/*.scss --syntax scss",
-    "test": "npm run eslint"
+    "test": "npm run eslint",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
