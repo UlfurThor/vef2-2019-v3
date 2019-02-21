@@ -16,6 +16,7 @@ async function comparePasswords(plainPassword, hashed) {
 module.exports = {
   db: dbUsers,
   hash,
+  comparePasswords,
 };
 
 
@@ -31,8 +32,8 @@ async function test() {
   console.log(await comparePasswords(userPlain, userHashed));
   console.info('test end  --------------------------');
 
-  const admin = await dbUsers.getUserByUserName('admin');
+  const admin = await dbUsers.getUserByusername('admin');
   console.log(admin);
-  console.log(await comparePasswords(adminPlain, admin.password));
+  console.log('pass match >', await comparePasswords(adminPlain, admin.password));
 }
 // test();

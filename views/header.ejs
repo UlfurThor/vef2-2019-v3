@@ -14,11 +14,17 @@
 
 <body>
   <header>
-    <div class="header">
+    <div class="headder__links">
       <a href="/">Heim</a>
       <a href="/applications" class="<%= title.includes('Umsóknir')  ? 'curent_page' : '' %>">Atvinnuumsókn</a>
       <a href="/login" class="<%= title.includes('Innskráning')   ? 'curent_page' : '' %>">Innskráning</a>
       <a href="/register" class="<%= title.includes('Nýskráning') ? 'curent_page' : '' %>">Nýskráning</a>
     </div>
+    <% if ( userAuthenticated ) { %>
+    <div class="headder__links">
+      <a href="/logout" class="<%= title.includes('Innskráning')   ? 'curent_page' : '' %>">Útskráning</a></br>
+      <%=  user.username %>
+    </div>
+    <% }%>
   </header>
   <main>

@@ -33,6 +33,8 @@ async function page(req, res) {
   // `title` verður aðgengilegt sem breyta í template
   res.render('apply', {
     title: 'Umsókn',
+    userAuthenticated: req.isAuthenticated(),
+    user: req.user,
   });
 }
 
@@ -66,6 +68,8 @@ async function submit(req, res) {
       title: 'Umsókn',
       err,
       data: safeData,
+      userAuthenticated: req.isAuthenticated(),
+      user: req.user,
     });
     return;
   }
@@ -76,6 +80,8 @@ async function submit(req, res) {
   }
   res.render('thanks', {
     title: 'Þakkir',
+    userAuthenticated: req.isAuthenticated(),
+    user: req.user,
   });
 }
 

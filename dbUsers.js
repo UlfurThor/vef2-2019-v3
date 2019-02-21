@@ -20,7 +20,7 @@ async function createUser(data) {
     )
   VALUES ( $1, $2, $3, $4, $5)`;
   const queryData = [
-    data.userName, // $1
+    data.username, // $1
     data.name, // $2
     data.hashedPass, // $3
     data.email, // $4
@@ -53,9 +53,9 @@ async function readUsers() {
 
 /**
  * returns the user with selected username
- * @param {*} userName
+ * @param {*} username
  */
-async function getUserByUserName(userName) {
+async function getUserByusername(username) {
   const queryString = `
     SELECT *
     FROM users
@@ -65,7 +65,28 @@ async function getUserByUserName(userName) {
     ORDER BY id;
     `;
   try {
-    const result = await query(queryString, [userName]);
+    const result = await query(queryString, [username]);
+    return result.rows[0];
+  } catch (err) {
+    throw new Error('error reading table Users');
+  }
+}
+
+/**
+ * returns the user with selected username
+ * @param {*} username
+ */
+async function getUserByID(id) {
+  const queryString = `
+    SELECT *
+    FROM users
+    WHERE
+      deleted IS NULL AND
+      id = $1
+    ORDER BY id;
+    `;
+  try {
+    const result = await query(queryString, [id]);
     return result.rows[0];
   } catch (err) {
     throw new Error('error reading table Users');
@@ -76,7 +97,7 @@ async function getUserByUserName(userName) {
  * Returns true if the given username is taken
  * @param {*} username
  */
-async function getIfUsernameTaken(username) {
+async function getIfusernameTaken(username) {
   const queryString = `
     SELECT id
     FROM users
@@ -168,9 +189,10 @@ module.exports = {
   readUsers,
   updateUsers,
   deleteUsers,
-  getIfUsernameTaken,
+  getIfusernameTaken,
   getIfEmailTaken,
-  getUserByUserName,
+  getUserByusername,
+  getUserByID,
 };
 
 // eslint-disable-next-line no-unused-vars

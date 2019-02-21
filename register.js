@@ -25,7 +25,7 @@ router.use(express.urlencoded({
 
 function sanitizeUser(data) {
   const safeData = data;
-  safeData.userName = xss(data.userName);
+  safeData.username = xss(data.username);
   safeData.email = xss(data.email);
   safeData.name = xss(data.name);
   safeData.password01 = ''; // prevents returning the password
@@ -47,7 +47,7 @@ async function validData(data, req) {
   if (data.password01 !== data.password02) {
     passNoMatch = false;
   }
-  const userTaken = await users.db.getIfUsernameTaken(data.userName);
+  const userTaken = await users.db.getIfusernameTaken(data.username);
   const emailTaken = await users.db.getIfEmailTaken(data.email);
 
   if (!errors.isEmpty() || passNoMatch || userTaken || emailTaken) {
@@ -64,7 +64,7 @@ async function validData(data, req) {
 
     if (userTaken) {
       err.msgList.push('Notendanafn frátekið');
-      err.userName = true;
+      err.username = true;
     }
 
     if (emailTaken) {
@@ -89,6 +89,8 @@ async function page(req, res) {
 
   res.render('register', {
     title: 'Nýskráning',
+    userAuthenticated: req.isAuthenticated(),
+    user: req.user,
   });
 }
 
@@ -111,6 +113,8 @@ async function submit(req, res) {
       title: 'Nýskráning - Villur',
       err: errors,
       data: safeData,
+      userAuthenticated: req.isAuthenticated(),
+      user: req.user,
     });
     return;
   }
@@ -122,6 +126,8 @@ async function submit(req, res) {
   }
   res.render('thanks', {
     title: 'Þakkir',
+    userAuthenticated: req.isAuthenticated(),
+    user: req.user,
   });
 }
 
@@ -133,7 +139,7 @@ router.post('/',
     min: 1,
   }).withMessage('Email má ekki vera tómt'),
   check('email').isEmail().withMessage('Email verður að fera í réttu formi'),
-  check('userName').isLength({
+  check('username').isLength({
     min: 1,
   }).withMessage('Notendanafn má ekki vera tómt'),
   check('password01').isLength({
@@ -143,7 +149,7 @@ router.post('/',
 
   sanitize('name').trim().escape(),
   sanitize('email').normalizeEmail(),
-  sanitize('userName').trim().escape(),
+  sanitize('username').trim().escape(),
   sanitize('password01').trim().escape(),
   sanitize('password02').trim().escape(),
   catchErrors(submit));

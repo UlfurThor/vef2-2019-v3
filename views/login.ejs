@@ -1,28 +1,27 @@
 <%- include('header') -%>
 <% if (typeof data === 'undefined') { data = {} }%>
-<% if (typeof err === 'undefined') { err = {} }%>
 
 <h1> Innskráning </h1>
 
 <form id="login" action="/login" method="post">
   <div class="field_container">
     <div class="field_block">
-      <label for="userName">Notendanafn:</label>
-      <input type="text" name="userName" value="<%= data.userName ? data.userName : '' %>" class="<%= err.userName ? 'error_input' : '' %>"><br>
+      <label for="username">Notendanafn:</label>
+      <input type="text" name="username" value="<%= data.username ? data.username : '' %>" class="<%= err.username ? 'error_input' : '' %>"><br>
     </div>
 
     <div class="field_block">
-      <label for="password01">Lykilorð:</label>
+      <label for="password">Lykilorð:</label>
       <input type="password" name="password" class="<%= err.password ? 'error_input' : '' %>"><br>
     </div>
 
   </div>
 
-  <% if (typeof err.msgList !== 'undefined') { %>
+  <% if (err !== '') { %>
   <h2>Vandræði við að senda umsókn:</h2>
   <ul class="error_list">
     <li>
-      <%- `${err.msgList.join('</li><li>')}`%>
+      <%- err %>
     </li>
   </ul>
 

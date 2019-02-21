@@ -24,5 +24,6 @@ INSERT INTO users (username, password, name, email
 ,passwordplain --TODO REMOVE
 )
 VALUES ('nn', '$2b$11$7V7mJLNzt.24VuuUFXqIaO7xpjeI8Gjw7sJmz5UYadvMWHyImwGOO', 'Nafnlaus', 'nn@example.org'
-,'asdfasdf' --TODO REMOVE
+,'12341234' --TODO REMOVE
 );
+

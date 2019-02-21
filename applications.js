@@ -91,6 +91,8 @@ async function page(req, res) {
   res.render('applications', {
     title: 'Umsóknir',
     formatedHTML: html,
+    userAuthenticated: req.isAuthenticated(),
+    user: req.user,
   });
 }
 
