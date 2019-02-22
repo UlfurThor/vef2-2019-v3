@@ -20,20 +20,21 @@ module.exports = {
 };
 
 
+// eslint-disable-next-line no-unused-vars
 async function test() {
   console.info('test start --------------------------');
   const adminPlain = 'asdfasdf';
   const adminHashed = await hash(adminPlain);
-  console.log(adminPlain, '>', adminHashed);
-  console.log(await comparePasswords(adminPlain, adminHashed));
+  console.info(adminPlain, '>', adminHashed);
+  console.info(await comparePasswords(adminPlain, adminHashed));
   const userPlain = '12341234';
   const userHashed = await hash(userPlain);
-  console.log(userPlain, '>', userHashed);
-  console.log(await comparePasswords(userPlain, userHashed));
+  console.info(userPlain, '>', userHashed);
+  console.info(await comparePasswords(userPlain, userHashed));
   console.info('test end  --------------------------');
 
   const admin = await dbUsers.getUserByusername('admin');
-  console.log(admin);
-  console.log('pass match >', await comparePasswords(adminPlain, admin.password));
+  console.info(admin);
+  console.info('pass match >', await comparePasswords(adminPlain, admin.password));
 }
 // test();

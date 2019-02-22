@@ -8,9 +8,6 @@ const {
 } = require('express-validator/filter');
 const xss = require('xss');
 const {
-  createApplication,
-} = require('./db');
-const {
   catchErrors,
 } = require('./utils');
 

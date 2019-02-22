@@ -119,6 +119,7 @@ function ensureLoggedIn(req, res, next) {
   return res.redirect('/login');
 }
 
+// eslint-disable-next-line no-unused-vars
 function ensureAdmin(req, res, next) {
   if (req.user.admin) {
     return next();
@@ -153,7 +154,6 @@ app.get('/login', (req, res) => {
     req.session.messages = [];
   }
   // Ef við breytum name á öðrum hvorum reitnum að neðan mun ekkert virka
-  console.log('req.isAuthenticated()', req.isAuthenticated());
   return res.render('login', {
     title: message,
     err: message,
@@ -203,8 +203,7 @@ app.get('/logout', (req, res) => {
 app.use('/', apply);
 app.use('/register', register);
 app.use('/applications', ensureLoggedIn, applications);
-// app.use('/admin', admin);
-app.use('/admin', ensureLoggedIn, admin); // TODO fix secure login
+app.use('/admin', ensureLoggedIn, admin);
 app.use('/user', ensureLoggedIn, userPage);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
@@ -235,7 +234,7 @@ const host = '127.0.0.1';
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`Running@ http://${host}:${port}/`);
+  console.info(`Running@ http://${host}:${port}/`);
 });
 
 /*

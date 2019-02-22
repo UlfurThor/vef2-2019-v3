@@ -21,6 +21,5 @@ CREATE TABLE users (
   admin boolean default false,
   created timestamp with time zone not null default current_timestamp,
   updated timestamp with time zone not null default current_timestamp,
-  deleted timestamp with time zone, -- more realistic implementation of a "delete" function, MUST NEVER BE EXPOSED UNDER NORMAL CIRCUMSTANCES
-  passwordPLAIN varchar(128) --TODO dev only remove
+  deleted timestamp with time zone -- more realistic implementation of a "delete" function, MUST NEVER BE EXPOSED UNDER NORMAL CIRCUMSTANCES
 );

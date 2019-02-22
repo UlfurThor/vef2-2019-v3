@@ -1,15 +1,5 @@
 const express = require('express');
-const {
-  check,
-  validationResult,
-} = require('express-validator/check');
-const {
-  sanitize,
-} = require('express-validator/filter');
 const xss = require('xss');
-const {
-  createApplication,
-} = require('./dbApplications');
 const {
   catchErrors,
 } = require('./utils');
@@ -98,9 +88,7 @@ async function page(req, res) {
   }
   const safeData = safeDataHelper(data);
 
-  // const html = htmlHelper(safeData, true); // TODO FIX SECURE LOGIN
   const html = htmlHelper(safeData, req.user.admin);
-  console.log(html);
   return res.render('admin', {
     title: 'Admin',
     formatedHTML: html,
@@ -112,7 +100,7 @@ async function page(req, res) {
 async function processApplication(req, res) {
   console.info('--- page> admin --post');
   const data = req.body;
-  console.log('admin data', data);
+
   if (req.user.admin) {
     let adminList = [];
     if (data.adminList !== undefined) {
@@ -124,7 +112,6 @@ async function processApplication(req, res) {
     } catch (err) {
       throw new Error(err);
     }
-
   } else {
     console.error('Non admin tried to update admin status');
   }
