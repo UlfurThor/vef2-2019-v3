@@ -1,13 +1,12 @@
 <%- include('header') -%>
 <h1>User</h1>
 
-<p>Innskráning sem
+<p>Sráður in sem
   <%-user.username%>
 </p>
-<p>Þú ert
-  <%-user.admin ? 'admin.' : 'ekki admin.'%>
+<p>Þú ert <%-user.admin ? '' : 'ekki '%> með admin status.
 </p>
 <p><a href="/logout">Útskráning</a></p>
-<p><a href="/admin">Skoða leyndarmál</a></p>
+<p><a href="/admin">Skoða Admin síðu</a></p>
 
 <%- include('footer') -%>

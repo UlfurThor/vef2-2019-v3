@@ -35,7 +35,7 @@ function safeDataHelper(data) {
  * Genarates the HTML to display application list
  * @param {input data} safeData
  */
-function htmlHelper(safeData) {
+function htmlHelper(safeData, admin) {
   const html = [];
 
   for (let j = 0; j < safeData.length; j += 1) {
@@ -44,22 +44,24 @@ function htmlHelper(safeData) {
     innerHTML = `${innerHTML}   <h3 class="name">${safeData[j].name}</h3>`;
     innerHTML = `${innerHTML}   <p class="email"><a href="mailto:${safeData[j].email}">${safeData[j].email}</a></p>`;
     innerHTML = `${innerHTML}   <p class="phone">Sími: ${safeData[j].phone}</p>`;
-    innerHTML = `${innerHTML}   <p class="time_sent">Umsókn send: ${safeData[j].created}</p>`;
+    innerHTML = `${innerHTML}   <p class="time_sent">Umsókn send: ${safeData[j].created.toISOString()}</p>`;
     innerHTML = `${innerHTML}   </br>`;
     innerHTML = `${innerHTML}   <p class="comment">${safeData[j].comment}</p>`;
     innerHTML = `${innerHTML}   <div class = "button_flex">`;
     if (safeData[j].processed) {
-      innerHTML = `${innerHTML}   <span>✓ Umsókn unnin: ${safeData[j].updated}</span>`;
+      innerHTML = `${innerHTML}   <span>✓ Umsókn unnin: ${safeData[j].updated.toISOString()}</span>`;
     } else {
       innerHTML = `${innerHTML}   <form id="processAplication" action="/applications/process" method="post">`;
       innerHTML = `${innerHTML}   <input type="hidden" name="applicationID" value="${safeData[j].id}">`;
       innerHTML = `${innerHTML}   <button> Vinna umsókn </button>`;
       innerHTML = `${innerHTML}   </form>`;
     }
-    innerHTML = `${innerHTML}   <form id="deleteAplication" action="/applications/delete" method="post">`;
-    innerHTML = `${innerHTML}   <input type="hidden" name="applicationID" value="${safeData[j].id}">`;
-    innerHTML = `${innerHTML}     <button> Eyða umsókn </button>`;
-    innerHTML = `${innerHTML}   </form>`;
+    if (admin) {
+      innerHTML = `${innerHTML}   <form id="deleteAplication" action="/applications/delete" method="post">`;
+      innerHTML = `${innerHTML}   <input type="hidden" name="applicationID" value="${safeData[j].id}">`;
+      innerHTML = `${innerHTML}     <button> Eyða umsókn </button>`;
+      innerHTML = `${innerHTML}   </form>`;
+    }
     innerHTML = `${innerHTML}   </div>`;
     innerHTML = `${innerHTML} </div>`;
 
@@ -77,6 +79,10 @@ function htmlHelper(safeData) {
 async function page(req, res) {
   console.info('--- page> applications');
 
+  if (!req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
+
   let data;
   try {
     data = await readApplications();
@@ -86,9 +92,9 @@ async function page(req, res) {
 
   const safeData = safeDataHelper(data);
 
-  const html = htmlHelper(safeData);
+  const html = htmlHelper(safeData, req.user.admin);
 
-  res.render('applications', {
+  return res.render('applications', {
     title: 'Umsóknir',
     formatedHTML: html,
     userAuthenticated: req.isAuthenticated(),
@@ -123,10 +129,14 @@ async function deleteApplication(req, res) {
   console.info('--- page> delete');
   const id = req.body.applicationID;
 
-  try {
-    await deleteApplications(id);
-  } catch (err) {
-    throw new Error(err);
+  if (req.user.admin) {
+    try {
+      await deleteApplications(id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  } else {
+    console.error(`Non admin tried to delete application ${id}`);
   }
 
   res.redirect('/applications');

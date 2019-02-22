@@ -27,7 +27,6 @@ if (!sessionSecret) {
 
 const app = express();
 
-/* todo stilla session og passport */
 // -------------------------------------------------------------------------------------------------
 // session / passport config
 
@@ -120,6 +119,14 @@ function ensureLoggedIn(req, res, next) {
   return res.redirect('/login');
 }
 
+function ensureAdmin(req, res, next) {
+  if (req.user.admin) {
+    return next();
+  }
+
+  return res.redirect('/user');
+}
+
 // -------------------------------------------------------------------------------------------------
 
 app.set('views', path.join(__dirname, 'views'));
@@ -167,9 +174,24 @@ app.post(
 
   // Ef við komumst hingað var notandi skráður inn, senda á /admin
   (req, res) => {
-    res.redirect('/admin');
+    res.redirect('/user');
   },
 );
+
+async function userPage(req, res) {
+  console.info('--- page> user');
+  console.info(req.user);
+
+  if (req.isAuthenticated()) {
+    return res.render('user', {
+      title: `/Notandi: ${req.user.name}`,
+      userAuthenticated: req.isAuthenticated(),
+      user: req.user,
+    });
+  }
+
+  return res.redirect('/login');
+}
 /* **************************************************************************** */
 
 app.get('/logout', (req, res) => {
@@ -180,8 +202,10 @@ app.get('/logout', (req, res) => {
 
 app.use('/', apply);
 app.use('/register', register);
-app.use('/applications', applications);
-app.use('/admin', ensureLoggedIn, admin);
+app.use('/applications', ensureLoggedIn, applications);
+// app.use('/admin', admin);
+app.use('/admin', ensureLoggedIn, admin); // TODO fix secure login
+app.use('/user', ensureLoggedIn, userPage);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
   res.status(404).render('error', {

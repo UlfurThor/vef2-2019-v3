@@ -19,7 +19,6 @@ function isInvalid(field, errors) {
   return Boolean(errors.find(i => i.param === field));
 }
 
-/* todo bæta við fleiri hjálparföllum */
 module.exports = {
   catchErrors,
   isInvalid,

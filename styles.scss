@@ -13,7 +13,196 @@
 html {
   box-sizing: border-box;
   overflow-x: hidden;
-
+  overflow-y: scroll;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
+}
+
+
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 800px) {
+    flex-direction: column-reverse;
+  }
+
+  margin: 32px;
+
+}
+
+main {
+  max-width: 1000px;
+
+}
+
+h1 {
+  font-size: 3rem;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+}
+
+h2 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+  size: 1em;
+}
+
+label {
+  padding: 8px;
+}
+
+.field_container {
+  input {
+    padding: 8px;
+    width: 100%;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 8px;
+    resize: vertical;
+    min-height: 3em;
+
+
+  }
+
+  .field_block {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+
+    @media (min-width: 800px) {
+      flex-direction: row;
+    }
+  }
+
+  label {
+    @media (min-width: 800px) {
+      width: 200px;
+    }
+  }
+}
+
+label.jobTitle {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+}
+
+
+
+label.jobTitle {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+}
+
+h2 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+  size: 1em;
+}
+
+.error_input {
+  border-color: #855;
+  background-color: #fbb;
+}
+
+.error_input_radio .radio_block {
+  border-color: #855;
+  background-color: #fbb;
+  padding: 8px;
+  margin: 8px;
+}
+
+
+button {
+  padding: 8px;
+  margin: 8px;
+  background: white;
+
+  transition: background-color 300ms ease-in;
+
+  &:hover {
+    background-color: #bbb;
+  }
+
+}
+
+.error_list li {
+  margin: 8px;
+}
+
+p {
+  &.comment {
+    padding: 8px;
+
+    transition: background-color 300ms ease-in;
+
+    &:hover {
+      background-color: #bbb;
+    }
+  }
+}
+
+.button_flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content {
+  margin-top: 32px;
+}
+
+header {
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+
+  a {
+    margin: 8px;
+  }
+
+  p {
+    margin: 8px;
+  }
+
+  .curent_page {
+    font-weight: bold;
+  }
+
+  .links {}
+
+  .status {}
+}
+
+.users__container {
+  .table__container {
+    overflow: auto;
+
+    table {
+      border-collapse: collapse;
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tbody {
+        tr:nth-child(odd) {
+          background-color: #dddddd;
+        }
+      }
+    }
+  }
+
+
 }

@@ -135,12 +135,22 @@ async function getIfEmailTaken(email) {
   }
 }
 
-/**
- * Sets the selected User to processed,
- *  and updates the updated timestamp
- * @param {id for User to be updated} id
- */
-async function updateUsers(id, admin) {
+
+async function getByAdmin(admin) {
+  const queryString = `
+    SELECT id
+    FROM users
+    WHERE admin = $1;
+    `;
+  try {
+    const result = await query(queryString, [admin]);
+    return result.rows;
+  } catch (err) {
+    throw new Error('error reading table Users');
+  }
+}
+
+async function updateUser(id, admin) {
   const queryString = `
   UPDATE Users
   SET
@@ -156,6 +166,24 @@ async function updateUsers(id, admin) {
   } catch (err) {
     throw new Error('error updating User');
   }
+}
+
+async function updateUsers(admin = []) {
+  let adminList = await getByAdmin(true);
+  adminList = adminList.map(x => x.id);
+  let nonadminList = await getByAdmin(false);
+  nonadminList = nonadminList.map(x => x.id);
+
+  const newAdmin = admin.filter(x => nonadminList.includes(x));
+  const newUser = adminList.filter(x => !admin.includes(x));
+
+  newAdmin.forEach(async (id) => {
+    await updateUser(id, true);
+  });
+
+  newUser.forEach(async (id) => {
+    await updateUser(id, false);
+  });
 }
 
 /**

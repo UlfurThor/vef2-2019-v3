@@ -124,10 +124,11 @@ async function submit(req, res) {
   } catch (err) {
     throw new Error(err);
   }
-  res.render('thanks', {
+  res.render('thanksRegister', {
     title: 'Þakkir',
     userAuthenticated: req.isAuthenticated(),
     user: req.user,
+    name: sanitizeUser(data).name,
   });
 }
 
